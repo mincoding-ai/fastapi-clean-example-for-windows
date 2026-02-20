@@ -604,7 +604,7 @@ services:
 ```
 
 2. Set environment variable
-
+- PowerShell 이 아닌, Bash 터미널에서 아래 명령어 실행할 것.
 ```shell
 export APP_ENV=local
 # export APP_ENV=dev
@@ -614,37 +614,22 @@ export APP_ENV=local
 3. Check it and generate `.env`
 
 ```shell
-# Probably you'll need Python 3.13 installed on your system to run these commands. 
-# The next code section provides commands for its fast installation.
-make env  # should print APP_ENV=local
-make dotenv  # should tell you where .env.local was generated
+make env  # APP_ENV=local 이 잘 뜨는지 확인한다.
+make dotenv  # .env.local 파일이 생성된다.
 ```
 
-4. Install `uv`
+4. `uv`로 파이썬 설치 (3.13 버전)
 
 ```shell
-# sudo apt update
-# sudo apt install pipx
-# pipx ensurepath
-# pipx install uv
-# https://docs.astral.sh/uv/getting-started/installation/#shell-autocompletion
-# uv python install 3.13  # To install Python
+uv python install 3.13  # To install Python
 ```
 
 5. Set up virtual environment
 
 ```shell
 uv sync --group dev
-source .venv/bin/activate
-
-# Alternatively,
-# uv v
-# source .venv/bin/activate  # on Unix
-# .venv\Scripts\activate  # on Windows
-# uv pip install -e . --group dev
+source .venv/Scripts/activate
 ```
-
-Don't forget to tell your IDE where the interpreter is located.
 
 Install pre-commit hooks:
 
@@ -684,6 +669,13 @@ pre-commit install
 - To stop the containers, use:
     ```shell
     make down
+    ```
+
+8. 로컬 실행 방법 (IDE)
+
+- IDE 터미널에서 아래 명령어를 실행한다.
+    ```
+    uv run uvicorn app.run:make_app --factory --reload
     ```
 
 ### Other Environments (dev/prod)
