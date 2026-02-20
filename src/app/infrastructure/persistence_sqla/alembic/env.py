@@ -7,7 +7,7 @@ import alembic_postgresql_enum  # this is needed for enum management
 from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
-from sqlalchemy.ext.asyncio import async_engine_from_config
+from sqlalchemy import engine_from_config
 
 from app.infrastructure.persistence_sqla.mappings.all import map_tables
 from app.infrastructure.persistence_sqla.registry import mapper_registry
@@ -68,29 +68,34 @@ def do_run_migrations(connection: Connection) -> None:
     with context.begin_transaction():
         context.run_migrations()
 
-
-async def run_async_migrations() -> None:
+# 마이그레이션 작업을 하는데 사용된 Async 관련 Library가 Windows에서 동작되지 않아
+# Async -> Sync로 변경함
+def run_sync_migrations() -> None:
     """In this scenario we need to create an Engine
     and associate a connection with the context.
 
     """
 
-    connectable = async_engine_from_config(
+    connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
 
-    async with connectable.connect() as connection:
-        await connection.run_sync(do_run_migrations)
+    with connectable.connect() as connection:
+        context.configure(
+            connection=connection,
+            target_metadata=target_metadata,
+        )
 
-    await connectable.dispose()
+        with context.begin_transaction():
+            context.run_migrations()
 
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
 
-    asyncio.run(run_async_migrations())
+    asyncio.run(run_sync_migrations()) # async -> sync로 변경
 
 
 if context.is_offline_mode():
