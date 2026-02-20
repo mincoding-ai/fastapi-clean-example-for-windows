@@ -30,7 +30,6 @@ dependencies = [
     "pyjwt[crypto]==2.10.1",
     "sqlalchemy[mypy]==2.0.44",
     "uvicorn==0.38.0",
-    "uvloop==0.22.1",
     "uuid-utils==0.11.1",
 ]
 
