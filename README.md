@@ -647,7 +647,7 @@ pre-commit install
     # make up.db-echo
     ```
 
-- Then, apply the migrations:
+- DB migration을 수행한다. (약 5분 소요):
     ```shell
     alembic upgrade head
     ```

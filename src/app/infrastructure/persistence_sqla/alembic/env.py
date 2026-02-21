@@ -1,6 +1,5 @@
 __all__ = ("alembic_postgresql_enum",)
 
-import asyncio
 from logging.config import fileConfig
 
 import alembic_postgresql_enum  # this is needed for enum management
@@ -95,7 +94,7 @@ def run_sync_migrations() -> None:
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
 
-    asyncio.run(run_sync_migrations()) # async -> sync로 변경
+    run_sync_migrations() # async -> sync로 변경
 
 
 if context.is_offline_mode():
