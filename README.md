@@ -644,9 +644,11 @@ pre-commit install
 6. Launch
 - DB는 도커에서 실행하고, Web App은 Local에서 실행한다.
 - 먼저 Docker를 Local에서 켜두어야한다.
+  
 <p align="center">
   <img src="docs/docker_app_icon.png" alt="Handlers" />
 </p>
+
 - 아래 명령어를 실행하여 DB Container를 올린다.
     ```shell
     make up.db
