@@ -632,16 +632,22 @@ source .venv/Scripts/activate
 ```
 
 Install pre-commit hooks:
+- Commit 하기 직전, 자동으로 lint 등 코드 검사를 실행해준는 훅
+- .pre-commit-config.yaml 파일에서 세팅한다.
 
 ```shell
 # https://pre-commit.com/
 pre-commit install
+# pre-commit uninstall # 제거
 ```
 
 6. Launch
-
-- To run only the database in Docker and use the app locally, use the following command:
-
+- DB는 도커에서 실행하고, Web App은 Local에서 실행한다.
+- 먼저 Docker를 Local에서 켜두어야한다.
+<p align="center">
+  <img src="docs/docker_app_icon.png" alt="Handlers" />
+</p>
+- 아래 명령어를 실행하여 DB Container를 올린다.
     ```shell
     make up.db
     # make up.db-echo
@@ -652,11 +658,10 @@ pre-commit install
     alembic upgrade head
     ```
 
-- After applying the migrations, the database is ready, and you can launch the application locally (e.g., through your
-  IDE). Remember to set the `APP_ENV` environment variable in your IDE's run configuration.
+- migration 작업이 끝나면, DB가 사용 가능한 상태가 된다.
+- 이제 Local(IDE)에서 Web App을 실행하면 된다.
 
-- To run via Docker Compose:
-
+- (옵션) 만약 Local(IDE)가 아니라, Web App을 Docker Compose로 실행하려면 아래 명령어를 실행한다.
     ```shell
     make up
     # make up.echo
@@ -669,6 +674,7 @@ pre-commit install
 - To stop the containers, use:
     ```shell
     make down
+    docker ps
     ```
 
 8. 로컬 실행 방법 (IDE)
